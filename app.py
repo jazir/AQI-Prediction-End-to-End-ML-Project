@@ -1,7 +1,6 @@
-from flask import Flask, render_template, url_for, request
-import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
+import os
 import pickle
+from flask import Flask, render_template, request
 
 # load the model from disk
 loaded_model = pickle.load(open('aqi_rf_reg_model.pkl', 'rb'))
@@ -28,5 +27,9 @@ def predict():
     return render_template('result.html', prediction=aqi_prediction)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+ #   app.run(debug=True)
+
+port = int(os.getenv("PORT"))
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=port)
