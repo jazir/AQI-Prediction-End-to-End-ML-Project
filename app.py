@@ -1,18 +1,21 @@
 import os
 import pickle
 from flask import Flask, render_template, request
+from flask_cors import cross_origin
 
 # load the model from disk
 loaded_model = pickle.load(open('aqi_rf_reg_model.pkl', 'rb'))
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
+@cross_origin()
 def home():
     return render_template('home.html')
 
 
 @app.route('/predict', methods=['POST'])
+@cross_origin()
 def predict():
     Ozone = float(request.form['Ozone conc'])
     PM_2p5 = float(request.form['PM-2.5 conc'])
